@@ -18,7 +18,7 @@ KUI.Button = KG.Class.define('ui.Button', {
             bsStyle : this.state.bsStyle
         };
 
-        return <Button {... prop}>{this.state.name}</Button>
+        return <Button {... prop}>{this.state.name}</Button>;
 
     }
 

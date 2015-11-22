@@ -1,13 +1,14 @@
 
 window.KG = window.KG || {};
 
-
 window.KUI = {};
 
-var ALL_CLASS = {};
+var ALL_CLASS = {},
+    ALL_REACT_CLASS = {};
 var F = {
     define : function(name, opts, parent){
         if(ALL_CLASS[name]) return (name +' component is exist');
+
 
 
         opts = _.extend({
@@ -36,12 +37,21 @@ var F = {
         ALL_CLASS[name] = opts;
 
 
-        return React.createClass(opts);
+        var $obj = React.createClass(opts);
+        ALL_REACT_CLASS[name] = $obj;
+
+        return $obj;
 
     },
 
     getAllClass : function(){
         return ALL_CLASS;
+    },
+
+    get : function(name){
+        var tmp = ALL_REACT_CLASS[name];
+
+        return tmp || null;
     }
 
 };
