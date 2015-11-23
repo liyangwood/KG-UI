@@ -12,13 +12,17 @@ KUI.Button = KG.Class.define('ui.Button', {
         }
     },
 
+    click : function(){
+        console.log(this._name, this._parent._name)
+    },
+
     render : function(){
 
         var prop = {
             bsStyle : this.state.bsStyle
         };
 
-        return <Button {... prop}>{this.state.name}</Button>;
+        return <Button onClick={this.click} {... prop}>{this.state.name}</Button>;
 
     }
 
@@ -26,13 +30,10 @@ KUI.Button = KG.Class.define('ui.Button', {
 
 KUI.SuccessButton = KG.Class.define('ui.SuccessButton', {
 
-    getInitialState : function(){
+    click : function(e){
+        this._callParent('click', [e]);
 
-
-        return _.extend(this.callParent('getInitialState'), {
-            bsStyle : 'success'
-        });
-
+        console.log(this._callParent('getInitialState'));
     }
 
 }, 'ui.Button');
