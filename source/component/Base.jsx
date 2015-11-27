@@ -43,6 +43,7 @@ KUI.Class.define('Base', {
     getRender : function(style, prop, opts){
         var X = opts.tag,
             html = opts.html;
+
         return <X style={style} {... prop}>{html}</X>;
     }
 

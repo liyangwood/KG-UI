@@ -15,24 +15,29 @@ KUI.Button = KUI.Class.define('Button', {
     },
 
     initProp : function(){
-        return {
+        var ori = {
             onClick : this.click,
             bsStyle : this.state.bsStyle
         };
+
+        this.props = _.extend(ori, this.props);
+
+        return this.props;
     },
 
     initTag : function(){
         return ReactBootstrap.Button;
     },
-    initHtml : function(){
-        return this.state.name;
-    }
-
-    //getRender : function(style, prop, opts){
-    //
-    //    var Tag = opts.tag;
-    //    return <Tag {... prop}>{this.state.name}</Tag>;
+    //initHtml : function(){
+    //    return this.state.name;
     //}
+
+    getRender : function(style, prop, opts){
+
+        var Tag = opts.tag;
+        console.log(prop);
+        return <Tag {... prop}>{this.props.children}</Tag>;
+    }
 
 }, 'Base');
 
