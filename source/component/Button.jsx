@@ -1,39 +1,38 @@
 
-var Button = ReactBootstrap.Button;
-
-
-
-KUI.Button = KG.Class.define('ui.Button', {
-
+KUI.Button = KUI.Class.define('Button', {
     getInitialState : function(){
         return {
             name : 'Jacky',
-            bsStyle : 'default'
+            bsStyle : 'success'
         }
     },
 
-    click : function(){
-        console.log(this._name, this._parent._name)
+    initEvent : function(){
+        var self = this;
+        this.click = function(e){
+            alert(self.state.name);
+        };
     },
 
-    render : function(){
-
-        var prop = {
+    initProp : function(){
+        return {
+            onClick : this.click,
             bsStyle : this.state.bsStyle
         };
+    },
 
-        return <Button onClick={this.click} {... prop}>{this.state.name}</Button>;
-
+    initTag : function(){
+        return ReactBootstrap.Button;
+    },
+    initHtml : function(){
+        return this.state.name;
     }
 
-}, 'ui.Widget');
+    //getRender : function(style, prop, opts){
+    //
+    //    var Tag = opts.tag;
+    //    return <Tag {... prop}>{this.state.name}</Tag>;
+    //}
 
-KUI.SuccessButton = KG.Class.define('ui.SuccessButton', {
+}, 'Base');
 
-    click : function(e){
-        this._callParent('click', [e]);
-
-        console.log(this._callParent('getInitialState'));
-    }
-
-}, 'ui.Button');

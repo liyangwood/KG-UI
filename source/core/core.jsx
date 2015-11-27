@@ -1,6 +1,4 @@
 
-window.KG = window.KG || {};
-
 window.KUI = {};
 
 var ALL_CLASS = {},
@@ -11,48 +9,50 @@ var F = {
     define : function(name, opts, parent){
         if(ALL_CLASS[name]) return (name +' component is exist');
 
-
         var base = {
 
-            _callParent : function(name, args){
+            getParent : function(pn){
+                var p = ALL_CLASS[this._name]._parent;
 
-                var tmp = this._getParent();
-                if(tmp){
-                    var par = tmp[name];
-                    return _.isFunction(par) ? par.apply(this, args) : _.clone(par);
+                if(p && p.length > 0){
+                    if(!pn){
+                        return p[0];
+                    }
+                    else{
+                        return _.find(p, function(item){
+                            return item._name === pn;
+                        });
+                    }
+
                 }
-            },
-            _getParent : function(){
+                else{
+                    throw this._name + ' \' parent is not exist';
+                }
 
-                return ALL_CLASS[this._name]._parent || null;
             }
         };
 
         var setting = {};
-        //if(!_.isArray(parent)){
-        //    parent = [parent];
-        //}
-        //parent = _.map(function(one){
-        //    var x = ALL_CLASS[one];
-        //    if(!x) throw one +' is not defined';
-        //
-        //    return ALL_CLASS[one];
-        //});
-        //
-        //parent.shift(base);
-        //setting = _.extend.apply(_, parent);
 
+        parent = parent || [];
+        if(!_.isArray(parent)){
+            parent = [parent];
+        }
+        parent = _.map(parent, function(one){
+            var x = ALL_CLASS[one];
+            if(!x) throw one +' is not defined';
 
-        parent = parent ? ALL_CLASS[parent] : null;
+            return x;
+        });
 
-        if(parent){
-            setting = _.extend({}, parent, opts);
+        if(parent.length>0){
+            var args = [{}].concat(parent).concat(opts);
+            setting = _.extend.apply(_, args);
 
         }
         else{
             setting = _.extend({}, base, opts);
         }
-
         setting._parent = parent;
         setting._name = name;
         ALL_CLASS[name] = setting;
@@ -76,15 +76,5 @@ var F = {
 
 };
 
-KG.Class = F;
+KUI.Class = F;
 
-// widget component base class
-KG.Class.define('ui.Widget', {
-
-
-
-    //must override
-    render : function(){
-        return <div />;
-    }
-});
